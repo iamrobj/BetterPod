@@ -22,7 +22,7 @@ data class Episode(
     val duration: Long,
     val explicit: Long,
     val episode: Long?,
-    val episodeType: String,
+    val episodeType: String?,
     val season: Long,
     val image: String,
     val feedItunesId: Long,

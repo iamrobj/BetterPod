@@ -14,6 +14,9 @@ interface ApiService {
     suspend fun searchPodcastsByName(@Query("q") query: String): PodcastListResponse
 
     @GET("episodes/byfeedid")
-    suspend fun findEpisodes(@Query("id") podcastId: Int): EpisodeListResponse
+    suspend fun findEpisodes(
+        @Query("id") podcastId: Int,
+        @Query("max") maxEpisodes: Int = 1000
+    ): EpisodeListResponse
 
 }
