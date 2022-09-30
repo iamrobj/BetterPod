@@ -17,11 +17,13 @@ import net.sqlcipher.database.SupportFactory
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.BuildConfig
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
-private val json = Json { ignoreUnknownKeys = true }
+private val json = Json {
+    ignoreUnknownKeys = true
+    coerceInputValues = true
+}
 
 val repositoryModule = module {
 
@@ -35,11 +37,11 @@ val repositoryModule = module {
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level =
-                        if (BuildConfig.DEBUG) {
-                            HttpLoggingInterceptor.Level.BODY
-                        } else {
-                            HttpLoggingInterceptor.Level.NONE
-                        }
+//                        if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BODY
+//                        } else {
+//                            HttpLoggingInterceptor.Level.NONE
+//                        }
                 }
             )
             .build()
@@ -58,7 +60,7 @@ val repositoryModule = module {
     single {
         val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
         val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-        val sharedPrefsFile: String = "shared_prefs"
+        val sharedPrefsFile = "shared_prefs"
         EncryptedSharedPreferences.create(
             sharedPrefsFile,
             mainKeyAlias,
@@ -94,7 +96,9 @@ val repositoryModule = module {
         Room.databaseBuilder(
             get(),
             AppDatabase::class.java, "database-name.db"
-        ).openHelperFactory(get()).build()
+        ).openHelperFactory(get())
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     single { get<Retrofit>().create(ApiService::class.java) }

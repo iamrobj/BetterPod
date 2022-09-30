@@ -5,6 +5,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -40,5 +42,11 @@ fun BetterPodTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
         typography = Typography,
         shapes = Shapes,
         content = content
+    )
+}
+
+fun TitleTheme(): TextStyle {
+    return TextStyle(
+        fontSize = 24.sp,
     )
 }

@@ -23,5 +23,11 @@ val appModule = module {
 //    factory { MainActivityPresenter(get()) }
 
     viewModel { MainActivityPresenter(get()) }
-    viewModel { (savedStateHandle: SavedStateHandle) -> DetailsViewModel(savedStateHandle, get()) }
+    viewModel { (savedStateHandle: SavedStateHandle) ->
+        DetailsViewModel(
+            savedStateHandle,
+            get(),
+            get()
+        )
+    }
 }

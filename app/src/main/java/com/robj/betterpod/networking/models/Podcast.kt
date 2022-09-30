@@ -15,9 +15,9 @@ data class Podcast(
     val author: String,
     val image: String,
     val artwork: String,
-    val newestItemPublishTime: Int,
-    val itunesId: Int?,
-    val trendScore: Int,
+    val newestItemPublishTime: Int? = null,
+    val itunesId: Int? = null,
+    val trendScore: Int? = null,
     val language: String,
 //	val categories : Categories
 )
