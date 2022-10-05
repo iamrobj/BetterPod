@@ -1,5 +1,6 @@
 package com.robj.betterpod.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -27,13 +29,13 @@ import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun PodcastDetails(onNavigateToDetails: (podcast: Podcast) -> Unit) {
+fun PodcastDetails() {
     val detailsViewModel: DetailsViewModel = getViewModel()
     rememberCoroutineScope().launch {
         detailsViewModel.loadPodcast()
         detailsViewModel.loadEpisodes()
     }
-    Column() {
+    Column(modifier = Modifier.background(Color.White)) {
         when (val state = detailsViewModel.podcastState.value) {
             is DetailsViewModel.PodcastState.Data -> PodcastDetailHeader(podcast = state.podcast)
             DetailsViewModel.PodcastState.Empty -> empty()

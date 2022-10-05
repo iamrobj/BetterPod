@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,9 +34,10 @@ import com.robj.betterpod.networking.models.Podcast
 fun podcastList(
     podcasts: List<Podcast>,
     onNavigateToDetails: (podcast: Podcast) -> Unit,
-    headerView: @Composable (() -> Unit)?
+    headerView: @Composable (() -> Unit)?,
+    state: LazyListState
 ) {
-    LazyColumn {
+    LazyColumn(state = state) {
         headerView?.let {
             item {
                 headerView()

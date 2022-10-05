@@ -1,4 +1,4 @@
-package com.robj.betterpod.ui.nav
+package com.robj.betterpod.ui.compose.navigation
 
 enum class Screen(val route: String) {
 
