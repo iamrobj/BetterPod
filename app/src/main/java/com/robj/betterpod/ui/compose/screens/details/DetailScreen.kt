@@ -40,7 +40,7 @@ fun PodcastDetails() {
         when (val state = detailsViewModel.podcastState.value) {
             is DetailViewModel.PodcastState.Data -> PodcastDetailHeader(podcast = state.podcast)
             DetailViewModel.PodcastState.Empty -> empty()
-            is DetailViewModel.PodcastState.Error -> com.robj.betterpod.ui.error(state.errorMsg)
+            is DetailViewModel.PodcastState.Error -> com.robj.betterpod.ui.errorState(state.errorMsg)
             DetailViewModel.PodcastState.Loading -> loading()
         }
         when (val state = detailsViewModel.episodeState.value) {
@@ -79,7 +79,7 @@ fun PodcastDetails() {
                 }
             }
             DetailViewModel.EpisodeState.Empty -> empty()
-            is DetailViewModel.EpisodeState.Error -> com.robj.betterpod.ui.error(state.errorMsg)
+            is DetailViewModel.EpisodeState.Error -> com.robj.betterpod.ui.errorState(state.errorMsg)
             DetailViewModel.EpisodeState.Loading -> loading()
         }
     }

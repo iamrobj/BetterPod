@@ -7,6 +7,7 @@ import com.robj.betterpod.DispatcherProvider
 import com.robj.betterpod.DispatcherProviderImpl
 import com.robj.betterpod.ui.compose.screens.details.DetailViewModel
 import com.robj.betterpod.ui.compose.screens.home.HomeViewModel
+import com.robj.betterpod.ui.compose.screens.search.SearchViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -23,6 +24,7 @@ val appModule = module {
 //    factory { MainActivityPresenter(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
+    viewModel { SearchViewModel(get(), get()) }
     viewModel { (savedStateHandle: SavedStateHandle) ->
         DetailViewModel(
             savedStateHandle,

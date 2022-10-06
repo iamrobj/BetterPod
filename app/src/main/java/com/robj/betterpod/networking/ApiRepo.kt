@@ -20,6 +20,12 @@ class ApiRepo(
         }
     }
 
+    suspend fun searchPodcasts(query: String): Result<List<Podcast>> = runCatching {
+        apiService.searchPodcasts(query).feeds.apply {
+            dbRepo.addAllPodcasts(this)
+        }
+    }
+
     suspend fun getPodcastEpisodes(podcastId: Int): Result<List<Episode>> = runCatching {
         apiService.findEpisodes(podcastId).items.apply {
             dbRepo.addAllEpisodes(this)

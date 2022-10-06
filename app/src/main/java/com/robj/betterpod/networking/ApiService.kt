@@ -13,6 +13,9 @@ interface ApiService {
     @GET("search/bytitle")
     suspend fun searchPodcastsByName(@Query("q") query: String): PodcastListResponse
 
+    @GET("search/byterm")
+    suspend fun searchPodcasts(@Query("q") query: String): PodcastListResponse
+
     @GET("episodes/byfeedid")
     suspend fun findEpisodes(
         @Query("id") podcastId: Int,

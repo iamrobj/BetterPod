@@ -5,11 +5,10 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.robj.betterpod.R
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         setContent {
             var appBarState by remember {
                 mutableStateOf(
-                    AppBarState(titleResId = R.string.title_discover)
+                    AppBarState(title = getString(R.string.title_discover))
                 )
             }
             BetterPodTheme {
@@ -39,9 +38,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             TopAppBar(
                                 title = {
                                     Text(
-                                        text = appBarState.title ?: getString(
-                                            appBarState.titleResId ?: R.string.app_name
-                                        )
+                                        text = appBarState.title,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 },
                                 navigationIcon = appBarState.navigationIcon,
@@ -54,21 +53,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             BottomAppBar { /* Bottom app bar content */ }
                         }
                     ) {
-                        SetupNavGraph() { appBarTitle, appBarTitleResId, isTopLevel ->
-                            appBarState = AppBarState(
-                                appBarTitle, appBarTitleResId, if (!isTopLevel) {
-                                    {
-                                        IconButton(onClick = { onBackPressed() }) {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowBack,
-                                                contentDescription = null
-                                            )
-                                        }
-                                    }
-                                } else {
-                                    null
-                                }
-                            )
+                        SetupNavGraph() { newAppBarState ->
+                            appBarState = newAppBarState
                         }
                     }
                 }
