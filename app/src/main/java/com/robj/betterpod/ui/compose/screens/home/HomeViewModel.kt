@@ -1,14 +1,15 @@
-package com.robj.betterpod
+package com.robj.betterpod.ui.compose.screens.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.robj.betterpod.DispatcherProvider
 import com.robj.betterpod.networking.ApiRepo
 import com.robj.betterpod.networking.models.Podcast
 import kotlinx.coroutines.launch
 
-class MainActivityPresenter(
+class HomeViewModel(
     private val apiRepo: ApiRepo,
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {

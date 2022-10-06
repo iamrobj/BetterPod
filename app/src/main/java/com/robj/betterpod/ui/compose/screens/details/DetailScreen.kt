@@ -1,4 +1,4 @@
-package com.robj.betterpod.ui
+package com.robj.betterpod.ui.compose.screens.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,9 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.robj.betterpod.DetailsViewModel
 import com.robj.betterpod.R
 import com.robj.betterpod.networking.models.Podcast
+import com.robj.betterpod.ui.empty
+import com.robj.betterpod.ui.loading
 import com.robj.betterpod.ui.theme.TitleTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -30,20 +31,20 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PodcastDetails() {
-    val detailsViewModel: DetailsViewModel = getViewModel()
+    val detailsViewModel: DetailViewModel = getViewModel()
     rememberCoroutineScope().launch {
         detailsViewModel.loadPodcast()
         detailsViewModel.loadEpisodes()
     }
     Column(modifier = Modifier.background(Color.White)) {
         when (val state = detailsViewModel.podcastState.value) {
-            is DetailsViewModel.PodcastState.Data -> PodcastDetailHeader(podcast = state.podcast)
-            DetailsViewModel.PodcastState.Empty -> empty()
-            is DetailsViewModel.PodcastState.Error -> error(state.errorMsg)
-            DetailsViewModel.PodcastState.Loading -> loading()
+            is DetailViewModel.PodcastState.Data -> PodcastDetailHeader(podcast = state.podcast)
+            DetailViewModel.PodcastState.Empty -> empty()
+            is DetailViewModel.PodcastState.Error -> com.robj.betterpod.ui.error(state.errorMsg)
+            DetailViewModel.PodcastState.Loading -> loading()
         }
         when (val state = detailsViewModel.episodeState.value) {
-            is DetailsViewModel.EpisodeState.Data -> LazyColumn(
+            is DetailViewModel.EpisodeState.Data -> LazyColumn(
                 modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
@@ -77,9 +78,9 @@ fun PodcastDetails() {
                     }
                 }
             }
-            DetailsViewModel.EpisodeState.Empty -> empty()
-            is DetailsViewModel.EpisodeState.Error -> error(state.errorMsg)
-            DetailsViewModel.EpisodeState.Loading -> loading()
+            DetailViewModel.EpisodeState.Empty -> empty()
+            is DetailViewModel.EpisodeState.Error -> com.robj.betterpod.ui.error(state.errorMsg)
+            DetailViewModel.EpisodeState.Loading -> loading()
         }
     }
 }

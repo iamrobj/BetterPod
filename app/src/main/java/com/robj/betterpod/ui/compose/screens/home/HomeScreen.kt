@@ -2,16 +2,16 @@ package com.robj.betterpod.ui
 
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import com.robj.betterpod.MainActivityPresenter
 import com.robj.betterpod.networking.models.Podcast
+import com.robj.betterpod.ui.compose.screens.home.HomeViewModel
 import org.koin.androidx.compose.getViewModel
 
 
 @Composable
 fun PodcastListView(onNavigateToDetails: (podcast: Podcast) -> Unit) {
-    val mainViewModel: MainActivityPresenter = getViewModel()
+    val mainViewModel: HomeViewModel = getViewModel()
     when (val state = mainViewModel.state.value) {
-        is MainActivityPresenter.State.Data -> {
+        is HomeViewModel.State.Data -> {
             state.podcasts.takeIf { it.size > 4 }?.let { podcasts ->
                 val state = rememberLazyListState()
                 podcastList(
@@ -29,8 +29,8 @@ fun PodcastListView(onNavigateToDetails: (podcast: Podcast) -> Unit) {
                 )
             }
         }
-        MainActivityPresenter.State.Empty -> empty()
-        is MainActivityPresenter.State.Error -> error(state.errorMsg)
-        MainActivityPresenter.State.Loading -> loading()
+        HomeViewModel.State.Empty -> empty()
+        is HomeViewModel.State.Error -> error(state.errorMsg)
+        HomeViewModel.State.Loading -> loading()
     }
 }

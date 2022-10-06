@@ -3,10 +3,10 @@ package com.robj.betterpod.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.SavedStateHandle
-import com.robj.betterpod.DetailsViewModel
 import com.robj.betterpod.DispatcherProvider
 import com.robj.betterpod.DispatcherProviderImpl
-import com.robj.betterpod.MainActivityPresenter
+import com.robj.betterpod.ui.compose.screens.details.DetailViewModel
+import com.robj.betterpod.ui.compose.screens.home.HomeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -22,9 +22,9 @@ val appModule = module {
 
 //    factory { MainActivityPresenter(get()) }
 
-    viewModel { MainActivityPresenter(get(), get()) }
+    viewModel { HomeViewModel(get(), get()) }
     viewModel { (savedStateHandle: SavedStateHandle) ->
-        DetailsViewModel(
+        DetailViewModel(
             savedStateHandle,
             get(),
             get()

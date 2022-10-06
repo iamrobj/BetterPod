@@ -1,4 +1,4 @@
-package com.robj.betterpod
+package com.robj.betterpod.ui.compose.screens.details
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +9,7 @@ import com.robj.betterpod.networking.DbRepo
 import com.robj.betterpod.networking.models.Episode
 import com.robj.betterpod.networking.models.Podcast
 
-class DetailsViewModel(
+class DetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val dbRepo: DbRepo,
     private val apiRepo: ApiRepo
