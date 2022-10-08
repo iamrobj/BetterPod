@@ -32,7 +32,7 @@ data class Podcast(
                 JsonObject(
                     mapOf(
                         "id" to JsonPrimitive(
-                            entry.key
+                            entry.key.toIntOrNull()
                         ), "name" to entry.value
                     )
                 )

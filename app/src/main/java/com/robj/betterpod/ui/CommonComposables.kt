@@ -3,9 +3,7 @@ package com.robj.betterpod.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -16,7 +14,9 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -42,6 +42,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.robj.betterpod.R
+import com.robj.betterpod.networking.models.Category
 import com.robj.betterpod.networking.models.Podcast
 import com.robj.betterpod.ui.compose.screens.search.TextFieldState
 
@@ -60,6 +61,41 @@ fun podcastList(
         }
         items(podcasts) { podcast ->
             podcastRow(podcast = podcast, onNavigateToDetails)
+        }
+    }
+}
+
+@Composable
+fun CategoryChips(
+    categories: List<Category>,
+    onCategorySelectionUpdated: (categories: List<Category>) -> Unit
+) {
+    val state = rememberLazyListState()
+    val selectedCategories = hashSetOf<Category>()
+    LazyRow(state = state) {
+        items(categories) { category ->
+            val isSelected = rememberSaveable { mutableStateOf(false) }
+            Text(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .background(
+                        if (isSelected.value) {
+                            Color.Gray
+                        } else {
+                            Color.Yellow
+                        }, RoundedCornerShape(4.dp)
+                    )
+                    .padding(4.dp)
+                    .clickable {
+                        isSelected.value = !isSelected.value
+                        if (isSelected.value) {
+                            selectedCategories.add(category)
+                        } else {
+                            selectedCategories.remove(category)
+                        }
+                        onCategorySelectionUpdated(selectedCategories.toList())
+                    }, text = category.name
+            )
         }
     }
 }

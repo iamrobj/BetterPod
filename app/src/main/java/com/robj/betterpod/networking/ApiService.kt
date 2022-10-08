@@ -1,5 +1,6 @@
 package com.robj.betterpod.networking
 
+import com.robj.betterpod.networking.models.CategoryListResponse
 import com.robj.betterpod.networking.models.EpisodeListResponse
 import com.robj.betterpod.networking.models.PodcastListResponse
 import retrofit2.http.GET
@@ -15,6 +16,17 @@ interface ApiService {
 
     @GET("search/byterm")
     suspend fun searchPodcasts(@Query("q") query: String): PodcastListResponse
+
+    @GET("categories/list")
+    suspend fun getAllCategories(): CategoryListResponse
+
+    @GET("podcasts/trending")
+    suspend fun trendingByCategory(
+        @Query(
+            "cat",
+            encoded = true
+        ) catIds: String
+    ): PodcastListResponse
 
     @GET("episodes/byfeedid")
     suspend fun findEpisodes(
