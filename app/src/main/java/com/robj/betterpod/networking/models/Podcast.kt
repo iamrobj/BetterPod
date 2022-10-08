@@ -3,6 +3,8 @@ package com.robj.betterpod.networking.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.*
 
 @Entity
 @Serializable
@@ -19,5 +21,24 @@ data class Podcast(
     val itunesId: Int? = null,
     val trendScore: Int? = null,
     val language: String,
-//	val categories : Categories
-)
+    @Serializable(with = JsonAsStringSerializer::class)
+    var categories: List<Category> = emptyList()
+) {
+
+    object JsonAsStringSerializer :
+        JsonTransformingSerializer<List<Category>>(tSerializer = ListSerializer(Category.serializer())) {
+        override fun transformDeserialize(element: JsonElement): JsonElement {
+            return JsonArray(content = element.jsonObject.map { entry ->
+                JsonObject(
+                    mapOf(
+                        "id" to JsonPrimitive(
+                            entry.key
+                        ), "name" to entry.value
+                    )
+                )
+            })
+        }
+    }
+
+}
+
