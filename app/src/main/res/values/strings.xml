@@ -2,4 +2,8 @@
     <string name="app_name">BetterPod</string>
     <string name="title_discover">Discover</string>
     <string name="search">Search</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="trailer">Trailer</string>
+    <string name="bonus">Bonus</string>
 </resources>

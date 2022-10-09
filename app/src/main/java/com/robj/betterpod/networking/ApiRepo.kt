@@ -36,7 +36,7 @@ class ApiRepo(
     suspend fun getAllCategories(): Result<List<Category>> = runCatching {
         apiService.getAllCategories().feeds.apply {
             dbRepo.addAllCategories(this)
-        }
+        }.sortedBy { it.name }
     }
 
     suspend fun getPodcastsByCategory(category: Category): Result<List<Podcast>> = runCatching {
