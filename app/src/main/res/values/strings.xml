@@ -6,4 +6,7 @@
     <string name="today">Today</string>
     <string name="trailer">Trailer</string>
     <string name="bonus">Bonus</string>
+    <string name="title_my_shows">My Shows</string>
+    <string name="title_downloads">Downloads</string>
+    <string name="title_settings">Settings</string>
 </resources>

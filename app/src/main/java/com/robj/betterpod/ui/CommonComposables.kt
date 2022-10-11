@@ -3,12 +3,9 @@ package com.robj.betterpod.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,11 +19,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.robj.betterpod.R
 import com.robj.betterpod.networking.models.Episode
 import com.robj.betterpod.networking.models.Podcast
+import com.robj.betterpod.ui.compose.navigation.navigateToDiscover
+import com.robj.betterpod.ui.compose.navigation.navigateToDownloads
+import com.robj.betterpod.ui.compose.navigation.navigateToMyShows
+import com.robj.betterpod.ui.compose.navigation.navigateToSettings
 
 @Composable
 fun podcastRow(podcast: Podcast, onNavigateToDetails: (podcast: Podcast) -> Unit) {
@@ -149,5 +151,72 @@ fun EpisodeRow(episode: Episode, isMyFeed: Boolean = false) {
             )
             Text(episode.duration.toFormattedTime(), style = TextStyle(fontSize = 12.sp))
         }
+    }
+}
+
+@Composable
+fun BottomNavBar(navController: NavHostController) {
+    BottomAppBar {
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = stringResource(
+                        id = R.string.title_discover
+                    )
+                )
+            },
+            alwaysShowLabel = false,
+            label = { Text(text = stringResource(id = R.string.title_discover)) },
+            selected = true, //TODO
+            onClick = {
+                navController.navigateToDiscover()
+            }
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = stringResource(
+                        id = R.string.title_my_shows
+                    )
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.title_my_shows)) },
+            selected = true, //TODO
+            onClick = {
+                navController.navigateToMyShows()
+            }
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = stringResource(
+                        id = R.string.title_downloads
+                    )
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.title_downloads)) },
+            selected = true, //TODO
+            onClick = {
+                navController.navigateToDownloads()
+            }
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = stringResource(
+                        id = R.string.title_settings
+                    )
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.title_settings)) },
+            selected = true, //TODO
+            onClick = {
+                navController.navigateToSettings()
+            }
+        )
     }
 }
