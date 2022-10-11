@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.robj.betterpod.R
-import com.robj.betterpod.networking.models.Podcast
+import com.robj.betterpod.database.models.PodcastViewModel
 import com.robj.betterpod.ui.EpisodeList
 import com.robj.betterpod.ui.empty
 import com.robj.betterpod.ui.loading
@@ -36,7 +36,7 @@ fun PodcastDetails() {
     }
     Column(modifier = Modifier.background(Color.White)) {
         when (val state = detailsViewModel.podcastState.value) {
-            is DetailViewModel.PodcastState.Data -> PodcastDetailHeader(podcast = state.podcast)
+            is DetailViewModel.PodcastState.Data -> PodcastDetailHeader(podcastViewModel = state.podcast)
             DetailViewModel.PodcastState.Empty -> empty()
             is DetailViewModel.PodcastState.Error -> com.robj.betterpod.ui.errorState(state.errorMsg)
             DetailViewModel.PodcastState.Loading -> loading()
@@ -51,7 +51,8 @@ fun PodcastDetails() {
 }
 
 @Composable
-fun PodcastDetailHeader(podcast: Podcast) {
+fun PodcastDetailHeader(podcastViewModel: PodcastViewModel) {
+    val podcast = podcastViewModel.podcast
     Row(modifier = Modifier.padding(16.dp)) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)

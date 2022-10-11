@@ -10,10 +10,12 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.robj.betterpod.R
+import com.robj.betterpod.networking.models.Podcast
 import com.robj.betterpod.ui.compose.navigation.Animations.slideDownExitAnim
 import com.robj.betterpod.ui.compose.navigation.Animations.slideUpEnterAnim
 import com.robj.betterpod.ui.compose.screens.details.PodcastDetails
 import com.robj.betterpod.ui.compose.screens.home.HomeScreen
+import com.robj.betterpod.ui.compose.screens.myShows.MyShowsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -25,12 +27,7 @@ fun SetupNavGraph(
             route = Screen.Home.route
         ) {
             HomeScreen() { podcast ->
-                navController.navigate(
-                    route = Screen.Details.route.replace(
-                        "{id}",
-                        podcast.id.toString()
-                    ).replace("{title}", podcast.title)
-                )
+                navController.navigateToPodcast(podcast)
             }
         }
         composable(
@@ -46,7 +43,9 @@ fun SetupNavGraph(
         composable(
             route = Screen.MyShows.route,
         ) {
-            //TODO
+            MyShowsScreen { podcast ->
+                navController.navigateToPodcast(podcast)
+            }
         }
         composable(
             route = Screen.Downloads.route,
@@ -75,6 +74,15 @@ fun NavHostController.navigateToDownloads() {
 
 fun NavHostController.navigateToSettings() {
     navigate(route = Screen.Settings.route)
+}
+
+fun NavHostController.navigateToPodcast(podcast: Podcast) {
+    navigate(
+        route = Screen.Details.route.replace(
+            "{id}",
+            podcast.id.toString()
+        ).replace("{title}", podcast.title)
+    )
 }
 
 fun getTitleByRoute(

@@ -7,6 +7,7 @@ import com.robj.betterpod.DispatcherProvider
 import com.robj.betterpod.DispatcherProviderImpl
 import com.robj.betterpod.ui.compose.screens.details.DetailViewModel
 import com.robj.betterpod.ui.compose.screens.home.HomeViewModel
+import com.robj.betterpod.ui.compose.screens.myShows.MyShowsViewModel
 import com.robj.betterpod.ui.compose.screens.search.SearchViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -21,10 +22,9 @@ val appModule = module {
     }
     single<DispatcherProvider> { DispatcherProviderImpl }
 
-//    factory { MainActivityPresenter(get()) }
-
-    viewModel { HomeViewModel(get(), get()) }
-    viewModel { SearchViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get()) }
+    viewModel { MyShowsViewModel(get(), get()) }
     viewModel { (savedStateHandle: SavedStateHandle) ->
         DetailViewModel(
             savedStateHandle,

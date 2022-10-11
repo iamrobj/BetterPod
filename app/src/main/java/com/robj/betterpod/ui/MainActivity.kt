@@ -58,12 +58,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                         overflow = TextOverflow.Ellipsis
                                     )
                                 },
-                                navigationIcon = {
-                                    if (showBackNavIcon) {
+                                navigationIcon = if (showBackNavIcon) {
+                                    {
                                         UpIcon(navController = navController)
-                                    } else {
-                                        null
                                     }
+                                } else {
+                                    null
                                 },
                                 backgroundColor = MaterialTheme.colors.primary,
                                 contentColor = Color.White,

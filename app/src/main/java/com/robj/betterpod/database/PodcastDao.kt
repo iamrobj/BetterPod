@@ -9,7 +9,7 @@ interface PodcastDao {
     fun getAll(): List<Podcast>
 
     @Query("SELECT * FROM podcast WHERE id IN (:podcastIds)")
-    fun loadAllByIds(podcastIds: IntArray): List<Podcast>
+    fun getAllByIds(podcastIds: IntArray): List<Podcast>
 
     @Query("SELECT * FROM podcast WHERE id is :id LIMIT 1")
     fun findById(id: Int): Podcast

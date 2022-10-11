@@ -42,6 +42,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.robj.betterpod.R
+import com.robj.betterpod.database.models.PodcastViewModel
 import com.robj.betterpod.networking.models.Category
 import com.robj.betterpod.networking.models.Episode
 import com.robj.betterpod.networking.models.Podcast
@@ -49,7 +50,7 @@ import com.robj.betterpod.ui.compose.screens.search.TextFieldState
 
 @Composable
 fun podcastList(
-    podcasts: List<Podcast>,
+    podcasts: List<PodcastViewModel>,
     onNavigateToDetails: (podcast: Podcast) -> Unit,
     headerView: @Composable (() -> Unit)? = null,
     state: LazyListState
@@ -61,7 +62,7 @@ fun podcastList(
             }
         }
         items(podcasts) { podcast ->
-            podcastRow(podcast = podcast, onNavigateToDetails)
+            podcastRow(podcastViewModel = podcast, onNavigateToDetails)
             Divider(
                 color = Color.Gray,
                 thickness = 1.dp,
@@ -108,7 +109,10 @@ fun CategoryChips(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun podcastPager(podcasts: List<Podcast>, onNavigateToDetails: (podcast: Podcast) -> Unit) {
+fun podcastPager(
+    podcastViewModels: List<PodcastViewModel>,
+    onNavigateToDetails: (podcast: Podcast) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -116,8 +120,8 @@ fun podcastPager(podcasts: List<Podcast>, onNavigateToDetails: (podcast: Podcast
             .clip(RoundedCornerShape(4.dp))
     ) {
         val pagerState = rememberPagerState()
-        HorizontalPager(count = podcasts.size, state = pagerState) { page ->
-            val podcast = podcasts[page]
+        HorizontalPager(count = podcastViewModels.size, state = pagerState) { page ->
+            val podcast = podcastViewModels[page].podcast
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(podcast.artwork)

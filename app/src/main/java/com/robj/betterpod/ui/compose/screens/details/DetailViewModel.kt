@@ -4,10 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.robj.betterpod.database.models.PodcastViewModel
 import com.robj.betterpod.networking.ApiRepo
 import com.robj.betterpod.networking.DbRepo
 import com.robj.betterpod.networking.models.Episode
-import com.robj.betterpod.networking.models.Podcast
 
 class DetailViewModel(
     savedStateHandle: SavedStateHandle,
@@ -44,7 +44,7 @@ class DetailViewModel(
         object Loading : PodcastState()
         object Empty : PodcastState()
         data class Error(val errorMsg: String) : PodcastState()
-        data class Data(val podcast: Podcast) : PodcastState()
+        data class Data(val podcast: PodcastViewModel) : PodcastState()
     }
 
     sealed class EpisodeState {

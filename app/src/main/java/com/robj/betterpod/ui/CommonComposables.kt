@@ -6,7 +6,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,15 +27,24 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.robj.betterpod.R
+import com.robj.betterpod.database.models.PodcastViewModel
 import com.robj.betterpod.networking.models.Episode
 import com.robj.betterpod.networking.models.Podcast
 import com.robj.betterpod.ui.compose.navigation.navigateToDiscover
 import com.robj.betterpod.ui.compose.navigation.navigateToDownloads
 import com.robj.betterpod.ui.compose.navigation.navigateToMyShows
 import com.robj.betterpod.ui.compose.navigation.navigateToSettings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Composable
-fun podcastRow(podcast: Podcast, onNavigateToDetails: (podcast: Podcast) -> Unit) {
+fun podcastRow(
+    podcastViewModel: PodcastViewModel,
+    onNavigateToDetails: (podcast: Podcast) -> Unit
+) {
+    val podcast = podcastViewModel.podcast
+    val subscriptionState = rememberSaveable { mutableStateOf(podcastViewModel.isSubscribed) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,7 +70,9 @@ fun podcastRow(podcast: Podcast, onNavigateToDetails: (podcast: Podcast) -> Unit
                 .clip(RoundedCornerShape(4.dp))
         )
         Column(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp)
+                .weight(1f)
         ) {
             Text(
                 text = podcast.title,
@@ -71,6 +86,21 @@ fun podcastRow(podcast: Podcast, onNavigateToDetails: (podcast: Podcast) -> Unit
                 modifier = Modifier.padding(top = 4.dp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
+            )
+        }
+        IconButton(onClick = {
+            subscriptionState.value = !subscriptionState.value
+            GlobalScope.launch(Dispatchers.IO) { //TODO: Bad practive
+                podcastViewModel.onSubscriptionChanged(subscriptionState.value)
+            }
+        }) {
+            Icon(
+                imageVector = if (subscriptionState.value) {
+                    Icons.Outlined.CheckCircle
+                } else {
+                    Icons.Outlined.AddCircle
+                },
+                contentDescription = null
             )
         }
     }
